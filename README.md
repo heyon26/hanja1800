@@ -12,13 +12,13 @@
 
 # 실행방법
 
-hanjaprint.py 와 1800ff.xlsx 파일을 같은 폴더에 넣고 hanjaprint.py로 실행
+hanjaprint.py 와 1800ffb.xlsx 파일을 같은 폴더에 넣고 hanjaprint.py로 실행
 
-+python 3.9.1 사용. openpyxl 라이브러리 사용 ('pip install openpyxl' 로 설치해서 사용)
++python 3.9.1 사용. openpyxl 라이브러리 사용 ('pip install openpyxl' )
 
 # todo list
 
-1. 부수 정보 추가
+~~1. 부수 정보 추가~~
 
 2. 정렬기능 추가(가나다순, 부수순, 획수순)
 

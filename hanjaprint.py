@@ -5,7 +5,6 @@ from tkinter.constants import ACTIVE, COMMAND, FALSE, SOLID, TRUE
 import tkinter.ttk as ttk
 import tkinter.font
 import tkinter as tk
-import threading
 
 from openpyxl.styles.colors import WHITE
 
@@ -14,18 +13,18 @@ from openpyxl.styles.colors import WHITE
 #os.chdir('C:\PythonWorkspace\hanja')
 
 #openpyxl 파일/시트 불러오기
-load_wb = load_workbook("1800ff.xlsx", data_only=True)
+load_wb = load_workbook("1800ffb.xlsx", data_only=True)
 load_ws = load_wb['1800']
 
-#tkinter 기본설정. 제목. 창크기설정
+#tkinter 기본설정. 제목. 창크기설정. 배경색. 항상위에
 root = tk.Tk()
 root.title("한자")
 root.geometry("400x200+0+0")
 root.configure(bg='white')
-
+root.wm_attributes("-topmost", 1)
 #폰트 설정
 font1=tkinter.font.Font(family="바탕", size=20)
-font=tkinter.font.Font(family="바탕", size=34)
+font=tkinter.font.Font(family="바탕", size=50)
 font2=tkinter.font.Font(family="바탕", size=28)
 font3=tkinter.font.Font(family="바탕", size=20)
 
@@ -69,39 +68,41 @@ c=int(0)
 
 #combobox 값을 받아서 split한뒤 int로 바꿈
 def number():
-    global cbv,b,c #global k 문장은 함수 안에서 함수 밖의 k 변수를 직접 사용
+    global k, cbv,b,c #global k 문장은 함수 안에서 함수 밖의 k 변수를 직접 사용
     a= str.get().split("-")
     b= int(a[0])+1
-    c= int(a[1])+1
+    c= int(a[1])+2
+    k= 1 #중지시 0이 되었던 값을 1로 초기화
     print(b,type(b),c,type(c))
     cl.set(str.get())
     root.update()
-    return c
 
 # 실행용
 def bttn():
-    for i in range(b,c):
-        try:
-            if k!=1:
-                print("stop")
+    while k==1:
+        for i in range(b,c):
+            try:
+                if k!=1:
+                    print("stop")
+                    break
+                else:
+                    label1.set(i-1) #번호
+                    label.set(load_ws.cell(row=i, column=2).value) #한자
+                    label3.set(load_ws.cell(row=i, column=3).value+" "+load_ws.cell(row=i, column=4).value) #뜻음
+                    root.update() #update 해야 반영됨
+                    root.after(2000)
+            except:
                 break
-            else:
-                label1.set(i-1) #번호
-                label.set(load_ws.cell(row=i, column=2).value) #한자
-                label3.set(load_ws.cell(row=i, column=3).value) #뜻음
-                root.update() #update 해야 반영됨
-                root.after(2000)
-        except:
-            break
 
 # 중지용
 def bttn2():
+    global k  #global k 문장은 함수 안에서 함수 밖의 k 변수를 직접 사용
+    k=0    
     label1.set("0")
     label.set("漢")
     label3.set("stop")
-    global k  #global k 문장은 함수 안에서 함수 밖의 k 변수를 직접 사용
-    k=0
-    return k
+    cl.set("다시 시작하려면 set") # 알림 추가
+
 
 
          
